@@ -4,7 +4,7 @@
     "name": "cunumeric",
     // Use the legate.core devcontainer image as a starting point.
     // Note: This image does not have a prebuilt / precached version of legate.core in it.
-    "image": "ghcr.io/nv-legate/legate.core.devcontainer"
+    "image": "ghcr.io/sandeepd-nv/legate.core.devcontainer:latest"
 
     // Use 'postCreateCommand' to run commands after the container is created.
     // "postCreateCommand": "bash scripts/devcontainer/devcontainer-post-create.sh"
