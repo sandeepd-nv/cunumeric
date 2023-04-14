@@ -8,16 +8,13 @@ on:
     branches-ignore:
       - gh-pages  # deployment target branch (this workflow should not exist on that branch anyway)
 env:
-  COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
-  PROJECT: github-core-ci
-  REF: ${{ github.event.pull_request.head.ref || github.ref }}
-  EVENT_NAME: ${{ github.event_name }}
-  LABEL: ${{ github.event.pull_request.head.label }}
-  REPO_URL: ${{ github.event.pull_request.head.repo.html_url || github.event.repository.html_url }}
-  # Prevent output buffering
-  PYTHONUNBUFFERED: 1
-  CODESPACES: true
-  GH_TOKEN: ${{ github.token }}
+  PYTHONDONTWRITEBYTECODE: 1
+  SCCACHE_REGION: us-east-2
+  SCCACHE_BUCKET: rapids-sccache-devs
+  SCCACHE_S3_KEY_PREFIX: legate-cunumeric-dev
+  VAULT_HOST: https://vault.ops.k8s.rapids.ai
+  GH_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
+  GITHUB_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -77,4 +74,4 @@ jobs:
         with:
           cacheFrom: ghcr.io/sandeepd-nv/cunumeric.devcontainer
           push: never
-          runCmd: ./install.py
+          runCmd: scripts/build-devcontainer.sh
