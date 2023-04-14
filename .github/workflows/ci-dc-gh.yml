@@ -16,6 +16,8 @@ env:
   REPO_URL: ${{ github.event.pull_request.head.repo.html_url || github.event.repository.html_url }}
   # Prevent output buffering
   PYTHONUNBUFFERED: 1
+  CODESPACES: true
+  GH_TOKEN: ${{ github.token }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -73,6 +75,6 @@ jobs:
       - name: Build cunumeric
         uses: devcontainers/ci@v0.3
         with:
-          cacheFrom: ghcr.io/nv-legate/cunumeric.devcontainer
+          cacheFrom: ghcr.io/sandeepd-nv/cunumeric.devcontainer
           push: never
           runCmd: ./install.py
