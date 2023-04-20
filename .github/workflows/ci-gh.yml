@@ -1,0 +1,57 @@
+name: CI (GPU)
+
+concurrency:
+  group: ci-gpu-on-${{ github.event_name }}-from-${{ github.ref_name }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches-ignore:
+      - gh-pages  # deployment target branch (this workflow should not exist on that branch anyway)
+  pull_request:
+    branches-ignore:
+      - gh-pages  # deployment target branch (this workflow should not exist on that branch anyway)
+
+jobs:
+  build:
+    permissions: read-all
+    runs-on: ubuntu-latest
+    container:
+      options: -u root
+      image: rapidsai/devcontainers:23.06-cpp-cuda11.8-mambaforge-ubuntu22.04
+      env:
+        PYTHONDONTWRITEBYTECODE: 1
+        SCCACHE_REGION: us-east-2
+        SCCACHE_BUCKET: rapids-sccache-devs
+        SCCACHE_S3_KEY_PREFIX: legate-cunumeric-dev
+        VAULT_HOST: https://vault.ops.k8s.rapids.ai
+        GH_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
+        GITHUB_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Build
+        shell: bash -eo pipefail {0}
+        run: |
+          apt update;
+          DEBIAN_FRONTEND=noninteractive \
+          apt install -y --no-install-recommends \
+              numactl rlwrap;
+          mv scripts/home/coder/.gitconfig /home/coder/.gitconfig;
+          mv scripts/home/coder/.local /home/coder/.local;
+          chmod a+x /home/coder/.local/bin/*;
+          chown -R coder:coder /home/coder/;
+
+          su - coder -Pc "                                   \
+          JOBS=1                                             \
+          CMAKE_BUILD_PARALLEL_LEVEL=1                       \
+          PATH=${PATH}                                       \
+          VAULT_HOST=${VAULT_HOST}                           \
+          GH_TOKEN=${GH_TOKEN}                               \
+          GITHUB_TOKEN=${GITHUB_TOKEN}                       \
+          SCCACHE_BUCKET=${SCCACHE_BUCKET}                   \
+          SCCACHE_REGION=${SCCACHE_REGION}                   \
+          SCCACHE_S3_KEY_PREFIX=${SCCACHE_S3_KEY_PREFIX}     \
+          PYTHONDONTWRITEBYTECODE=${PYTHONDONTWRITEBYTECODE} \
+            ~/.local/bin/entrypoint bash -i build-all";

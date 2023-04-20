@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e;
+
+cd ~/
+
+# clone-legion;
+clone-legate-core;
+clone-cunumeric;
+
+if type conda >/dev/null 2>&1; then
+    . make-conda-env;
+fi
+
+build-legate-cpp;
+build-legate-wheel;
+build-legate-conda;
+
+build-cunumeric-cpp;
+build-cunumeric-wheel;
+build-cunumeric-conda;
