@@ -35,13 +35,6 @@ jobs:
           ref: sans_gh_cli
           path: lsbs
 
-      - name: Checkout legate.core
-        uses: actions/checkout@v3
-        with:
-          repository: nv-legate/legate.core
-          ref: refs/tags/v23.03.00
-          path: legate
-
       - name: Checkout cunumeric (= this repo)
         uses: actions/checkout@v3
         with:
@@ -56,7 +49,6 @@ jobs:
               numactl rlwrap;
           mv lsbs/home/coder/.gitconfig /home/coder/.gitconfig;
           mv lsbs/home/coder/.local /home/coder/.local;
-          mv legate /home/coder/legate
           mv cunumeric /home/coder/cunumeric
 
           chmod a+x /home/coder/.local/bin/*;
@@ -73,4 +65,4 @@ jobs:
           SCCACHE_REGION=${SCCACHE_REGION}                   \
           SCCACHE_S3_KEY_PREFIX=${SCCACHE_S3_KEY_PREFIX}     \
           PYTHONDONTWRITEBYTECODE=${PYTHONDONTWRITEBYTECODE} \
-            ~/.local/bin/entrypoint bash -i build-all";
+            ~/.local/bin/entrypoint bash -i build-cunumeric";
