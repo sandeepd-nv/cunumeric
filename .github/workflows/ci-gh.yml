@@ -25,11 +25,15 @@ jobs:
         SCCACHE_BUCKET: rapids-sccache-devs
         SCCACHE_S3_KEY_PREFIX: legate-cunumeric-dev
         VAULT_HOST: https://vault.ops.k8s.rapids.ai
-        GH_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
-        GITHUB_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN }}"
+        GH_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}"
+        GITHUB_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN}}"
     steps:
-      - name: Checkout
+      - name: Checkout legate-separate-build-scripts
         uses: actions/checkout@v3
+        with:
+          repository: 'sandeepd-nv/legate-separate-build-scripts'
+          ref: 'sans_gh_cli'
+          path: 'lsbs'
         
       - name: Build
         shell: bash -eo pipefail {0}
@@ -38,8 +42,8 @@ jobs:
           DEBIAN_FRONTEND=noninteractive \
           apt install -y --no-install-recommends \
               numactl rlwrap;
-          mv scripts/home/coder/.gitconfig /home/coder/.gitconfig;
-          mv scripts/home/coder/.local /home/coder/.local;
+          mv lsbs/home/coder/.gitconfig /home/coder/.gitconfig;
+          mv lsbs/home/coder/.local /home/coder/.local;
           chmod a+x /home/coder/.local/bin/*;
           chown -R coder:coder /home/coder/;
 
