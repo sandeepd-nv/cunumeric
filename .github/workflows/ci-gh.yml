@@ -1,4 +1,4 @@
-name: CI (GPU)
+name: Build cunumeric on GH
 
 concurrency:
   group: ci-gpu-on-${{ github.event_name }}-from-${{ github.ref_name }}
