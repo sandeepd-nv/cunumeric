@@ -27,6 +27,8 @@ jobs:
         VAULT_HOST: https://vault.ops.k8s.rapids.ai
         GH_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}"
         GITHUB_TOKEN: "${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN}}"
+      volumes:
+        ${{ env.GITHUB_WORKSPACE }}/out:/tmp/out
     steps:
       - name: Checkout legate-separate-build-scripts
         uses: actions/checkout@v3
@@ -78,3 +80,9 @@ jobs:
           CMAKE_CXX_COMPILER_LAUNCHER=${CMAKE_CXX_COMPILER_LAUNCHER} \
           CMAKE_CUDA_COMPILER_LAUNCHER=${CMAKE_CUDA_COMPILER_LAUNCHER} \
             ~/.local/bin/entrypoint bash -i build-all";
+
+      - name: Upload build output
+        uses: actions/upload-artifact@v3
+        with:
+          name: cunumeric-build-output
+          path: ./out/*
