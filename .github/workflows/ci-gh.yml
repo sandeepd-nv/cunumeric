@@ -78,4 +78,4 @@ jobs:
           CMAKE_C_COMPILER_LAUNCHER=${CMAKE_C_COMPILER_LAUNCHER} \
           CMAKE_CXX_COMPILER_LAUNCHER=${CMAKE_CXX_COMPILER_LAUNCHER} \
           CMAKE_CUDA_COMPILER_LAUNCHER=${CMAKE_CUDA_COMPILER_LAUNCHER} \
-            ~/.local/bin/entrypoint bash -i build-cunumeric";
+            ~/.local/bin/entrypoint bash -i build-all";
