@@ -63,11 +63,7 @@ jobs:
 
           chmod a+x /home/coder/.local/bin/*;
           chown -R coder:coder /home/coder/;
-
-          echo RUSTC_WRAPPER=${RUSTC_WRAPPER}
-          echo CMAKE_C_COMPILER_LAUNCHER=${CMAKE_C_COMPILER_LAUNCHER}
-          echo CMAKE_CXX_COMPILER_LAUNCHER=${CMAKE_CXX_COMPILER_LAUNCHER}
-          echo CMAKE_CUDA_COMPILER_LAUNCHER=${CMAKE_CUDA_COMPILER_LAUNCHER}
+          chown -R coder:coder /tmp/out;
 
           su - coder -Pc "                                   \
           JOBS=1                                             \
