@@ -65,22 +65,7 @@ jobs:
           chown -R coder:coder /home/coder/;
           chown -R coder:coder /tmp/out;
 
-          su - coder -Pc "                                   \
-          JOBS=1                                             \
-          CMAKE_BUILD_PARALLEL_LEVEL=1                       \
-          PATH=${PATH}                                       \
-          VAULT_HOST=${VAULT_HOST}                           \
-          GH_TOKEN=${GH_TOKEN}                               \
-          GITHUB_TOKEN=${GITHUB_TOKEN}                       \
-          SCCACHE_BUCKET=${SCCACHE_BUCKET}                   \
-          SCCACHE_REGION=${SCCACHE_REGION}                   \
-          SCCACHE_S3_KEY_PREFIX=${SCCACHE_S3_KEY_PREFIX}     \
-          PYTHONDONTWRITEBYTECODE=${PYTHONDONTWRITEBYTECODE} \
-          RUSTC_WRAPPER=${RUSTC_WRAPPER} \
-          CMAKE_C_COMPILER_LAUNCHER=${CMAKE_C_COMPILER_LAUNCHER} \
-          CMAKE_CXX_COMPILER_LAUNCHER=${CMAKE_CXX_COMPILER_LAUNCHER} \
-          CMAKE_CUDA_COMPILER_LAUNCHER=${CMAKE_CUDA_COMPILER_LAUNCHER} \
-            ~/.local/bin/entrypoint bash -i build-all";
+          su coder -Pc "~/.local/bin/entrypoint bash -ic 'PATH=$CUDA_HOME/bin:\$PATH build-all'";
 
       - name: Upload build output
         uses: actions/upload-artifact@v3
