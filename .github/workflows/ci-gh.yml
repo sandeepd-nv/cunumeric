@@ -31,12 +31,12 @@ jobs:
       volumes:
         - ${{ github.workspace }}/out:/tmp/out
     steps:
-      - name: Checkout legate-separate-build-scripts
-        uses: actions/checkout@v3
-        with:
-          repository: 'sandeepd-nv/legate-separate-build-scripts'
-          ref: sans_gh_cli
-          path: lsbs
+      # - name: Checkout legate-separate-build-scripts
+      #   uses: actions/checkout@v3
+      #   with:
+      #     repository: 'sandeepd-nv/legate-separate-build-scripts'
+      #     ref: sans_gh_cli
+      #     path: lsbs
 
       - name: Checkout legate.core
         uses: actions/checkout@v3
@@ -57,9 +57,10 @@ jobs:
           DEBIAN_FRONTEND=noninteractive \
           apt install -y --no-install-recommends \
               numactl rlwrap;
-          mv lsbs/home/coder/.gitconfig /home/coder/.gitconfig;
-          mv lsbs/home/coder/.local /home/coder/.local;
+          
           mv legate /home/coder/legate
+          mv cunumeric/continuous_integration/home/coder/.gitconfig /home/coder/.gitconfig;
+          mv cunumeric/continuous_integration/home/coder/.local /home/coder/.local;
           mv cunumeric /home/coder/cunumeric
 
           chmod a+x /home/coder/.local/bin/*;
