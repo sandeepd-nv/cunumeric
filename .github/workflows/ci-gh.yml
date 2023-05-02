@@ -57,9 +57,8 @@ jobs:
           apt install -y --no-install-recommends \
               numactl rlwrap tree;
 
-          tree
-          
           unzip "legate.core-${{ env.LEGATE_SHA }}.zip"
+          tree
 
           
           
