@@ -63,7 +63,7 @@ jobs:
           mv cunumeric/continuous_integration/home/coder/.gitconfig /home/coder/.gitconfig;
           mv cunumeric/continuous_integration/home/coder/.local /home/coder/.local;
           mv cunumeric /home/coder/cunumeric
-          mv *.yml /home/coder/
+          mv *.yaml /home/coder/
           mv *.whl /home/coder/
 
           chmod a+x /home/coder/.local/bin/*;

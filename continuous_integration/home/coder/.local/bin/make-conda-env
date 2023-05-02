@@ -11,7 +11,7 @@ make_conda_env() {
     if [ -z "${python_version}" ]; then
         python_version="$(python3 --version 2>&1 | cut -d' ' -f2 | cut -d'.' -f3 --complement)";
     fi
-    local pattern="*.yml"
+    local pattern="*.yaml"
     local yaml_files=( $pattern )
     local yaml_file="${yaml_files[0]}"
 
