@@ -56,9 +56,11 @@ jobs:
           apt install -y --no-install-recommends \
               numactl rlwrap tree;
 
+          tree
+          
           unzip "legate.core-${{ env.LEGATE_SHA }}.zip"
 
-          tree
+          
           
       #     mv legate /home/coder/legate
       #     mv cunumeric/continuous_integration/home/coder/.gitconfig /home/coder/.gitconfig;
