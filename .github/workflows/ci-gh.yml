@@ -39,6 +39,7 @@ jobs:
         with:
           repo: "sandeepd-nv/legate.core"
           artifact_name: "legate.core-${{ env.LEGATE_SHA }}"
+          rename: "legate.core-${{ env.LEGATE_SHA }}.zip"
           token: "${{ secrets.GITHUB_TOKEN }}"
           wait_seconds: 60
         
