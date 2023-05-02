@@ -11,17 +11,13 @@ make_conda_env() {
     if [ -z "${python_version}" ]; then
         python_version="$(python3 --version 2>&1 | cut -d' ' -f2 | cut -d'.' -f3 --complement)";
     fi
+    local pattern="*.yml"
+    local yaml_files=( $pattern )
+    local yaml_file="${yaml_files[0]}"
 
-    mamba env create -n legate -f ~/"$(         \
-        ~/legate/scripts/generate-conda-envs.py \
-            --os linux                          \
-            --compilers                         \
-            --ctk ${cuda_version}               \
-            --python ${python_version}          \
-            --openmpi                           \
-            --no-ucx                            \
-        | head -n1 | cut -d' ' -f3              \
-    )";
+    echo "YAML file: ${yaml_file}" >&2
+
+    mamba env create -n legate -f "${yaml_file}";
 
     mamba install -y -n legate -c conda-forge boa;
 

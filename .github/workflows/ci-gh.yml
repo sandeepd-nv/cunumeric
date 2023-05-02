@@ -58,23 +58,20 @@ jobs:
               numactl rlwrap tree;
 
           unzip "legate.core-${{ env.LEGATE_SHA }}.zip"
-          tree
+          # tree
 
-          
-          
-      #     mv legate /home/coder/legate
-      #     mv cunumeric/continuous_integration/home/coder/.gitconfig /home/coder/.gitconfig;
-      #     mv cunumeric/continuous_integration/home/coder/.local /home/coder/.local;
-      #     mv cunumeric /home/coder/cunumeric
+          mv cunumeric/continuous_integration/home/coder/.gitconfig /home/coder/.gitconfig;
+          mv cunumeric/continuous_integration/home/coder/.local /home/coder/.local;
+          mv cunumeric /home/coder/cunumeric
 
-      #     chmod a+x /home/coder/.local/bin/*;
-      #     chown -R coder:coder /home/coder/;
-      #     chown -R coder:coder /tmp/out;
+          chmod a+x /home/coder/.local/bin/*;
+          chown -R coder:coder /home/coder/;
+          chown -R coder:coder /tmp/out;
 
-      #     su coder -Pc "~/.local/bin/entrypoint bash -ic 'PATH=$CUDA_HOME/bin:\$PATH build-all'";
+          su coder -Pc "~/.local/bin/entrypoint bash -ic 'PATH=$CUDA_HOME/bin:\$PATH build-all'";
 
-      # - name: Upload build output
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: cunumeric-build-output
-      #     path: ./out/*
+      - name: Upload build output
+        uses: actions/upload-artifact@v3
+        with:
+          name: cunumeric-build-output
+          path: ./out/*
