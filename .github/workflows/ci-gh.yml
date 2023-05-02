@@ -15,6 +15,10 @@ jobs:
     permissions: read-all
     # Ref: https://docs.rapids.ai/resources/github-actions/#cpu-labels for `linux-amd64-cpu4`
     runs-on: ${{ github.repository == 'nv-legate/cunumeric' && 'linux-amd64-cpu4' || 'ubuntu-latest' }}
+    
+    env:
+      LEGATE_SHA: c0fc544fa61a5e2634256577f46b3ec105e23c65
+    
     container:
       options: -u root
       image: rapidsai/devcontainers:23.06-cpp-cuda11.8-mambaforge-ubuntu22.04
@@ -29,14 +33,14 @@ jobs:
       volumes:
         - ${{ github.workspace }}/out:/tmp/out
     steps:
-       # TODO: checkout a specific version of legate.core.
-      - name: Checkout legate.core
-        uses: actions/checkout@v3
+      - name: Download legate
+        id: download_legate
+        uses: bettermarks/action-artifact-download
         with:
-          repository: nv-legate/legate.core
-          fetch-depth: 0
-          path: legate
-
+          artifact_name: "legate.core-$LEGATE_SHA"
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          wait_seconds: 0
+        
       - name: Checkout cunumeric (= this repo)
         uses: actions/checkout@v3
         with:
@@ -49,21 +53,25 @@ jobs:
           apt update;
           DEBIAN_FRONTEND=noninteractive \
           apt install -y --no-install-recommends \
-              numactl rlwrap;
+              numactl rlwrap tree;
+
+          unzip "legate.core-$LEGATE_SHA.zip"
+
+          tree
           
-          mv legate /home/coder/legate
-          mv cunumeric/continuous_integration/home/coder/.gitconfig /home/coder/.gitconfig;
-          mv cunumeric/continuous_integration/home/coder/.local /home/coder/.local;
-          mv cunumeric /home/coder/cunumeric
+      #     mv legate /home/coder/legate
+      #     mv cunumeric/continuous_integration/home/coder/.gitconfig /home/coder/.gitconfig;
+      #     mv cunumeric/continuous_integration/home/coder/.local /home/coder/.local;
+      #     mv cunumeric /home/coder/cunumeric
 
-          chmod a+x /home/coder/.local/bin/*;
-          chown -R coder:coder /home/coder/;
-          chown -R coder:coder /tmp/out;
+      #     chmod a+x /home/coder/.local/bin/*;
+      #     chown -R coder:coder /home/coder/;
+      #     chown -R coder:coder /tmp/out;
 
-          su coder -Pc "~/.local/bin/entrypoint bash -ic 'PATH=$CUDA_HOME/bin:\$PATH build-all'";
+      #     su coder -Pc "~/.local/bin/entrypoint bash -ic 'PATH=$CUDA_HOME/bin:\$PATH build-all'";
 
-      - name: Upload build output
-        uses: actions/upload-artifact@v3
-        with:
-          name: cunumeric-build-output
-          path: ./out/*
+      # - name: Upload build output
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: cunumeric-build-output
+      #     path: ./out/*
