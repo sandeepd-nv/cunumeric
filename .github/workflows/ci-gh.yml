@@ -65,6 +65,7 @@ jobs:
           mv cunumeric /home/coder/cunumeric
           mv *.yaml /home/coder/
           mv *.whl /home/coder/
+          tar xf *-Linux.tar.gz -C /home/coder/legate/build
 
           chmod a+x /home/coder/.local/bin/*;
           chown -R coder:coder /home/coder/;
