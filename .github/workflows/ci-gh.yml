@@ -35,7 +35,7 @@ jobs:
     steps:
       - name: Download legate
         id: download_legate
-        uses: bettermarks/action-artifact-download
+        uses: bettermarks/action-artifact-download@0.3.0
         with:
           artifact_name: "legate.core-$LEGATE_SHA"
           token: "${{ secrets.GITHUB_TOKEN }}"
