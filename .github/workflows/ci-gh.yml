@@ -13,6 +13,7 @@ on:
 jobs:
   build:
     permissions: read-all
+    # Ref: https://docs.rapids.ai/resources/github-actions/#cpu-labels for `linux-amd64-cpu4`
     runs-on: ${{ github.repository == 'nv-legate/cunumeric' && 'linux-amd64-cpu4' || 'ubuntu-latest' }}
     container:
       options: -u root
