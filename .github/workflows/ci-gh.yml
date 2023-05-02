@@ -37,7 +37,7 @@ jobs:
         id: download_legate
         uses: bettermarks/action-artifact-download@0.3.0
         with:
-          artifact_name: "legate.core-$LEGATE_SHA"
+          artifact_name: "legate.core-${{ env.LEGATE_SHA }}"
           token: "${{ secrets.GITHUB_TOKEN }}"
           wait_seconds: 0
         
@@ -55,7 +55,7 @@ jobs:
           apt install -y --no-install-recommends \
               numactl rlwrap tree;
 
-          unzip "legate.core-$LEGATE_SHA.zip"
+          unzip "legate.core-${{ env.LEGATE_SHA }}.zip"
 
           tree
           
