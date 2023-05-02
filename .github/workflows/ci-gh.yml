@@ -37,10 +37,10 @@ jobs:
         id: download_legate
         uses: bettermarks/action-artifact-download@0.3.0
         with:
-          repo: "nv-legate/legate.core"
+          repo: "sandeepd-nv/legate.core"
           artifact_name: "legate.core-${{ env.LEGATE_SHA }}"
           token: "${{ secrets.GITHUB_TOKEN }}"
-          wait_seconds: 0
+          wait_seconds: 60
         
       - name: Checkout cunumeric (= this repo)
         uses: actions/checkout@v3
