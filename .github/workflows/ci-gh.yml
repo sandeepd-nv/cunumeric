@@ -8,15 +8,12 @@ on:
   push:
     branches-ignore:
       - gh-pages  # deployment target branch (this workflow should not exist on that branch anyway)
-  pull_request:
-    branches-ignore:
-      - gh-pages  # deployment target branch (this workflow should not exist on that branch anyway)
+  # NOTE: this workflow will not work for pull_requests since GH pull requests do not have access to secrets.
 
 jobs:
   build:
     permissions: read-all
-    # runs-on: ubuntu-latest
-    runs-on: self-hosted
+    runs-on: ${{ github.repository == 'nv-legate/cunumeric' && 'linux-amd64-cpu4' || 'ubuntu-latest' }}
     container:
       options: -u root
       image: rapidsai/devcontainers:23.06-cpp-cuda11.8-mambaforge-ubuntu22.04
@@ -31,18 +28,11 @@ jobs:
       volumes:
         - ${{ github.workspace }}/out:/tmp/out
     steps:
-      # - name: Checkout legate-separate-build-scripts
-      #   uses: actions/checkout@v3
-      #   with:
-      #     repository: 'sandeepd-nv/legate-separate-build-scripts'
-      #     ref: sans_gh_cli
-      #     path: lsbs
-
+       # TODO: checkout a specific version of legate.core.
       - name: Checkout legate.core
         uses: actions/checkout@v3
         with:
           repository: nv-legate/legate.core
-          # ref: refs/tags/v23.03.00
           path: legate
 
       - name: Checkout cunumeric (= this repo)
